@@ -8,6 +8,7 @@
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
+    "deck-of-cards": "^0.1.8",
     "register-service-worker": "^1.0.0",
     "vue": "^2.5.16",
     "vuex": "^3.0.1"
