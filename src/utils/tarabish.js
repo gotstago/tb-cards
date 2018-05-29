@@ -405,7 +405,7 @@ export default function getGame(deck) {
   
         function chooseDealer(gameState) {
           return new Promise(function (resolve, reject) {
-            var offset = Math.floor(Math.random() * 4);
+            var offset = 0//Math.floor(Math.random() * 4);
             dealerPosition = offset
             currentPosition = (offset + 1) % playerPositions.length;
             resolve()

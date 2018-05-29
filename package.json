@@ -11,6 +11,8 @@
     "deck-of-cards": "^0.1.8",
     "register-service-worker": "^1.0.0",
     "vue": "^2.5.16",
+    "vue-cli-plugin-vuetify": "^0.1.2",
+    "vuetify": "^1.0.16",
     "vuex": "^3.0.1"
   },
   "devDependencies": {
@@ -21,11 +23,25 @@
     "@vue/test-utils": "^1.0.0-beta.10",
     "babel-core": "^7.0.0-0",
     "babel-jest": "^22.0.4",
+    "babel-plugin-transform-imports": "^1.4.1",
+    "stylus": "^0.54.5",
+    "stylus-loader": "^3.0.1",
     "vue-template-compiler": "^2.5.13"
   },
   "babel": {
     "presets": [
       "@vue/app"
+    ],
+    "plugins": [
+      [
+        "transform-imports",
+        {
+          "vuetify": {
+            "transform": "vuetify/es5/components/${member}",
+            "preventFullImport": true
+          }
+        }
+      ]
     ]
   },
   "postcss": {
@@ -57,7 +73,8 @@
       "jest-serializer-vue"
     ],
     "testMatch": [
-      "<rootDir>/(tests/unit/**/*.spec.(js|jsx|ts|tsx)|**/__tests__/*.(js|jsx|ts|tsx))"
+      "<rootDir>/(tests/unit/**/*.spec.(js|jsx|ts|tsx)|**/__tests__/*.(js|jsx|ts|tsx))",
+      "<rootDir>/(**/*.unit.(js|jsx|ts|tsx)|**/__tests__/*.(js|jsx|ts|tsx))"
     ]
   }
 }

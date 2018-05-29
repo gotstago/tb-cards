@@ -1,113 +1,145 @@
 <script>
 import getGame from "../utils/tarabish";
-
+import Deck from "deck-of-cards";
+// Import the EventBus.
+import { EventBus } from "../utils/event-bus.js";
+import { mapActions, mapGetters } from "vuex";
+// Listen for the i-got-clicked event and its payload.
 export default {
-  data() {
-    return {
-      //$container: document.getElementById('container'),
-    };
+  // data() {
+  //   return {
+  //     deck: {}
+  //     //$container: document.getElementById('container'),
+  //   };
+  // },
+  // computed: {
+  //   // ...mapGetters([
+  //   //   "deck",
+  //   //   // "northCards",
+  //   //   // "southCards",
+  //   //   // "eastCards",
+  //   //   // "westCards",
+  //   //   // "trickCards"
+  //   // ])
+  // },
+
+  // created() {
+  //   // this.$store.dispatch('getDeck')
+  // },
+  computed: mapGetters({
+    deck: "getDeck",
+    // cards: "allCards",
+    prefix: "prefix"
+  }),
+  methods: mapActions(["addProductToCart", "seedDeck"]),
+  created() {
+    this.$store.dispatch("obtainDeck");
   },
+  mounted() {
+    mounteded();
+  },
+
   mounted: function() {
     // var vm = this
+    EventBus.$on("play", () => {
+      console.log(`Oh, that's nice. Play clicked! :)`);
+      getGame(this.deck)
+        .start(true)
+        .then(function(gameState) {
+          console.log("Got the final result: " + gameState);
+        });
+    });
+    EventBus.$on("seed", () => {
+      const seedArray = [
+        44,
+        7,
+        17,
+        27,
+        16,
+        2,
+        39,
+        43,
+        30,
+        1,
+        15,
+        51,
+        33,
+        12,
+        3,
+        20,
+        45,
+        42,
+        5,
+        14,
+        31,
+        40,
+        19,
+        4,
+        6,
+        46,
+        18,
+        28,
+        25,
+        26,
+        38,
+        41,
+        13,
+        29,
+        0,
+        32
+      ];
+      console.log(`Seeding : from component)`);
+      this.$store.dispatch("seedDeck");
+      // var seededCards = this.deck.cards.map(c => c.pos);
+      // console.log(`seeded array before is ${seededCards}`);
+      // this.deck.cards.forEach(function(card, i) {
+      //   card.pos = seedArray[i];
+      //   // card.sort(i, cards.length, function (i) {
+      //   //   if (i === cards.length - 1) {
+      //   //     next()
+      //   //   }
+      //   // }, reverse)
+      // });
+      // //this.deck.unmount()
+      // seededCards = this.deck.cards.map(c => c.pos);
+      // console.log(`seeded array after is ${seededCards}`);
+    });
+
     this.$nextTick(function() {
-      console.log(`test created ${this.$deck()}`);
-      var prefix = this.$deck.prefix;
+      var prefix = this.prefix;
 
       var transform = prefix("transform");
 
-      var translate = this.$deck.translate;
+      var translate = this.deck.translate;
 
-      // var $container = document.getElementById('container')
       console.log(`container is ${this.$refs.container}`);
-      var $topbar = this.$refs.topbar;
-      //document.getElementById('topbar')
-      var $messagebar = document.getElementById("messagebar");
 
-      // var $sort = document.createElement('button')
-      var $shuffle = document.createElement("button");
-      var $bysuit = document.createElement("button");
-      var $fan = document.createElement("button");
-      var $poker = document.createElement("button");
-      var $tarabish = document.createElement("button");
-      var $flip = document.createElement("button");
-      var $easter = document.createElement("button");
+      this.$store.dispatch("removeCards");
+      this.deck.mount(this.$refs.container);
 
-      $shuffle.textContent = "Shuffle";
-      // $sort.textContent = 'Sort'
-      $bysuit.textContent = "By suit";
-      $fan.textContent = "Fan";
-      $poker.textContent = "Poker";
-      $tarabish.textContent = "Tarabish";
-      $flip.textContent = "Flip";
-      $easter.textContent = "Easter";
-      var deck = this.$deck();
-
-      // $topbar.appendChild($flip)
-      // $topbar.appendChild($shuffle)
-      // $topbar.appendChild($bysuit)
-      // $topbar.appendChild($fan)
-      // $topbar.appendChild($poker)
-      $topbar.appendChild($tarabish);
-      // $topbar.appendChild($sort)
-      // $topbar.appendChild($easter)
-      $tarabish.addEventListener("click", function() {
-        getGame(deck)
-          .start(true)
-          .then(function(gameState) {
-            console.log("Got the final result: " + gameState);
-          });
-      });
-
-      var deck = this.$deck();
-
-      var cards = deck.cards;
-      var removedCards = cards.splice(8, 4);
-      removedCards.forEach(function(removedCard) {
-        removedCard.unmount();
-      });
-      removedCards = cards.splice(17, 4);
-      removedCards.forEach(function(removedCard) {
-        removedCard.unmount();
-      });
-      removedCards = cards.splice(26, 4);
-      removedCards.forEach(function(removedCard) {
-        removedCard.unmount();
-      });
-      removedCards = cards.splice(35, 4);
-      removedCards.forEach(function(removedCard) {
-        removedCard.unmount();
-      });
-      deck.queue(function(next) {
-        cards.forEach(function(card, i) {
-          //turn over all cards with a small delay between each
-          setTimeout(function() {
-            card.setSide("back");
-          }, i * 7.5);
-        });
+      this.deck.intro();
+      this.deck.sort();
+      this.deck.shuffle();
+      this.deck.queue(function(next) {
+        console.log(`after animation`);
+        EventBus.$emit("finished animating");
         next();
       });
-
-      deck.mount(this.$refs.container);
-
-      deck.intro();
-      deck.sort();
-      deck.shuffle();
-      console.log("finished...");
     });
   }
 };
 </script>
 
 <template>
-  <div id="body">
+  <div id="table">
     <div
       id="containeri"
       ref="container"
     />
-    <div
+    <!-- <div
       id="topbar"
      ref="topbar"
-     />
+     /> -->
   </div>
 </template>
 <style>
@@ -180,7 +212,17 @@ export default {
   color: red;
 }
 
-* {
+/* * {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+} */
+
+html,
+#table {
+  height: 100%;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -188,12 +230,7 @@ export default {
   padding: 0;
 }
 
-html,
-body {
-  height: 100%;
-}
-
-body {
+#table {
   background-color: #45a173;
   color: #333;
   font-family: "Open Sans", sans-serif;
@@ -272,10 +309,10 @@ body {
   display: inline-block;
   left: -1.9375rem;
   top: -2.75rem;
-  width: 77.5px;
-  height: 110px;
-  /* width: 3.875rem; */
-  /* height: 5.5rem; */
+  /* width: 77.5px; */
+  /* height: 110px; */
+  width: 3.875rem;
+  height: 5.5rem;
   background-color: #fff;
   -webkit-border-radius: 4px;
   border-radius: 4px;
