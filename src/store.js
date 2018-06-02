@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import Deck from 'deck-of-cards'
+import getGame from "./utils/tarabish";
 //import getGame from "../utils/tarabish";
 // Vue.prototype.$deck = deck
 Vue.use(Vuex)
@@ -61,6 +62,13 @@ export default new Vuex.Store({
   actions: {
     obtainDeck({ commit }) {
       commit(CREATE_DECK, Deck)
+    },
+    newGame({commit, state}){
+      getGame(state.deck)
+        .start(true)
+        .then(function(gameState) {
+          console.log("Got the final result: " + gameState);
+        });
     },
     seedDeck({ commit }) {
       commit(SEED_DECK, [

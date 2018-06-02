@@ -1,5 +1,5 @@
 <script>
-import getGame from "../utils/tarabish";
+import getGame from "../utils/tarabish.js";
 import Deck from "deck-of-cards";
 // Import the EventBus.
 import { EventBus } from "../utils/event-bus.js";
@@ -35,74 +35,24 @@ export default {
   created() {
     this.$store.dispatch("obtainDeck");
   },
-  mounted() {
-    mounteded();
-  },
+  // mounted() {
+  //   mounteded();
+  // },
 
   mounted: function() {
     // var vm = this
     EventBus.$on("play", () => {
-      console.log(`Oh, that's nice. Play clicked! :)`);
-      getGame(this.deck)
-        .start(true)
-        .then(function(gameState) {
-          console.log("Got the final result: " + gameState);
-        });
+      console.log(`Play clicked! :)`);
+      // getGame(this.deck)
+      //   .start(true)
+      //   .then(function(gameState) {
+      //     console.log("Got the final result: " + gameState);
+      //   });
+      this.$store.dispatch("newGame")
     });
     EventBus.$on("seed", () => {
-      const seedArray = [
-        44,
-        7,
-        17,
-        27,
-        16,
-        2,
-        39,
-        43,
-        30,
-        1,
-        15,
-        51,
-        33,
-        12,
-        3,
-        20,
-        45,
-        42,
-        5,
-        14,
-        31,
-        40,
-        19,
-        4,
-        6,
-        46,
-        18,
-        28,
-        25,
-        26,
-        38,
-        41,
-        13,
-        29,
-        0,
-        32
-      ];
-      console.log(`Seeding : from component)`);
+
       this.$store.dispatch("seedDeck");
-      // var seededCards = this.deck.cards.map(c => c.pos);
-      // console.log(`seeded array before is ${seededCards}`);
-      // this.deck.cards.forEach(function(card, i) {
-      //   card.pos = seedArray[i];
-      //   // card.sort(i, cards.length, function (i) {
-      //   //   if (i === cards.length - 1) {
-      //   //     next()
-      //   //   }
-      //   // }, reverse)
-      // });
-      // //this.deck.unmount()
-      // seededCards = this.deck.cards.map(c => c.pos);
-      // console.log(`seeded array after is ${seededCards}`);
     });
 
     this.$nextTick(function() {
@@ -119,6 +69,7 @@ export default {
 
       this.deck.intro();
       this.deck.sort();
+      this.deck.shuffle();
       this.deck.shuffle();
       this.deck.queue(function(next) {
         console.log(`after animation`);
