@@ -247,12 +247,12 @@ html,
 
 .message {
   position: fixed;
-  top: 2.5rem;
+  top: 8.5rem;
   left: 0;
   width: 100%;
   padding: 1rem 0.5rem;
-  font-size: 0.5rem;
-  text-align: center;
+  font-size: 1.5rem;
+  text-align: right;
 }
 
 .card {

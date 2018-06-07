@@ -11,6 +11,7 @@
       <v-btn @click="flip" flat>Flip</v-btn>
       <v-btn @click="shuffle" flat>Shuffle</v-btn>
       <v-btn @click="sort" flat>Sort</v-btn>
+      <v-btn @click="message" flat>Message</v-btn>
     </v-toolbar-items>
   </v-toolbar>
     <v-content>
@@ -115,6 +116,12 @@ export default {
       // this.playing = true;
       // EventBus.$emit('flip');
       this.$store.dispatch("flip")
+    },
+    message() {
+      // Send the event on a channel (play) without a payload .
+      // this.playing = true;
+      // EventBus.$emit('flip');
+      this.$store.dispatch("printMessage","hello")
     },
     seed() {
       // this.clickCount++;
