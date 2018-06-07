@@ -7,7 +7,10 @@
     <v-toolbar-items class="hidden-sm-and-down">
       <v-btn @click="play" flat :disabled="animating || playing">Play Game</v-btn>
       <v-btn @click="seed" flat :disabled="animating">Seed</v-btn>
-      <v-btn flat>Link Three</v-btn>
+      <v-btn @click="fan" flat>Fan</v-btn>
+      <v-btn @click="flip" flat>Flip</v-btn>
+      <v-btn @click="shuffle" flat>Shuffle</v-btn>
+      <v-btn @click="sort" flat>Sort</v-btn>
     </v-toolbar-items>
   </v-toolbar>
     <v-content>
@@ -89,11 +92,36 @@ export default {
       this.playing = true;
       EventBus.$emit('play');
     },
+    shuffle() {
+      // Send the event on a channel (play) without a payload .
+      // this.playing = true;
+      // EventBus.$emit('shuffle');
+      this.$store.dispatch("shuffle")
+    },
+    sort() {
+      // Send the event on a channel (play) without a payload .
+      // this.playing = true;
+      // EventBus.$emit('sort');
+      this.$store.dispatch("sort")
+    },
+    fan() {
+      // Send the event on a channel (play) without a payload .
+      // this.playing = true;
+      // EventBus.$emit('fan');
+      this.$store.dispatch("fan")
+    },
+    flip() {
+      // Send the event on a channel (play) without a payload .
+      // this.playing = true;
+      // EventBus.$emit('flip');
+      this.$store.dispatch("flip")
+    },
     seed() {
       // this.clickCount++;
       // Send the event on a channel (play) without a payload .
       //this.playing = true;
-      EventBus.$emit('seed');
+      // EventBus.$emit('seed');
+      this.$store.dispatch("seedDeck")
     }
   },
   mounted: function(){

@@ -69,8 +69,8 @@ export default {
 
       this.deck.intro();
       this.deck.sort();
-      this.deck.shuffle();
-      this.deck.shuffle();
+      this.deck.flip();
+      this.deck.fan();
       this.deck.queue(function(next) {
         console.log(`after animation`);
         EventBus.$emit("finished animating");

@@ -44,13 +44,13 @@ export default new Vuex.Store({
         //   }
         // }, reverse)
       });
-      // state.deck.cards.sort(function (a, b) {
-      //   // if (reverse) {
-      //     return a.pos - b.pos
-      //   // } else {
-      //   //   return b.pos - a.pos
-      //   // }
-      // })
+      state.deck.cards.sort(function (a, b) {
+        // if (reverse) {
+          return a.pos - b.pos
+        // } else {
+        //   return b.pos - a.pos
+        // }
+      })
       
       // var removedCards = state.deck.cards.splice(parm[0], parm[1]);
       // removedCards.forEach(function (removedCard) {
@@ -60,6 +60,18 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    sort({ commit, state }) {
+      state.deck.sort()
+    },
+    flip({ commit, state }) {
+      state.deck.flip()
+    },
+    fan({ commit, state }) {
+      state.deck.fan()
+    },
+    shuffle({ commit, state }) {
+      state.deck.shuffle()
+    },
     obtainDeck({ commit }) {
       commit(CREATE_DECK, Deck)
     },
@@ -85,10 +97,10 @@ export default new Vuex.Store({
     removeCards({ commit, state }) {
       console.log(`state.deck is ${state.deck}`)
       var cards = state.deck.cards;
-      commit(REMOVE_CARDS, [8, 4]);
-      commit(REMOVE_CARDS, [17, 4]);
-      commit(REMOVE_CARDS, [26, 4]);
-      commit(REMOVE_CARDS, [35, 4]);
+      commit(REMOVE_CARDS, [1, 4]);
+      commit(REMOVE_CARDS, [10, 4]);
+      commit(REMOVE_CARDS, [19, 4]);
+      commit(REMOVE_CARDS, [28, 4]);
     }
   }
 })
